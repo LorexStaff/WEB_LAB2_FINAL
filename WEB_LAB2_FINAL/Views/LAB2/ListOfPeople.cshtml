@@ -1,0 +1,37 @@
+﻿@model List<WEB_LAB2_FINAL.Models.Entities.Person>
+@{
+    ViewBag.Title = "ListOfPeople";
+}
+<h2>Список участников опроса</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Admin"))
+    {
+    <button type="button" class="bth btn-default" onclick="location.href='@Url.Action("CreatePerson", "LAB2")'">
+        <span class="glyphicon glyphicon-plus"></span>Добавить человека
+    </button>
+    }
+}
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-center">
+                <th class="col-md-offset-2 col-md-5">Наименование</th>
+                <th>Возраст</th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th class="col-md-2">#</th>
+                    if (User.IsInRole("Admin"))
+                    {
+                        <th class="col-md-2">#</th>
+                        <th class="col-md-2">#</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in Model)
+            {
+                @Html.Partial("PersonOverviewPartial", person)
+            }
+        </tbody>
+    </table>

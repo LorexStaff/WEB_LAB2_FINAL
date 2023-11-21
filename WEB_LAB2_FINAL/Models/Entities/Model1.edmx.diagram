@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="50ba05108c3e43af9039220a31a9a0ab" Name="Diagram1">
+        <EntityTypeShape EntityType="WEB_LAB5Model.Answer" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WEB_LAB5Model.Person" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WEB_LAB5Model.Question" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WEB_LAB5Model.Role" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WEB_LAB5Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WEB_LAB5Model.User" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="WEB_LAB5Model.FK__Answer__PersonId__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="WEB_LAB5Model.FK__Answer__Question__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="WEB_LAB5Model.FK_Person_User" ManuallyRouted="false" />
+        <AssociationConnector Association="WEB_LAB5Model.FK_User_Role" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,19 @@
+﻿@model WEB_LAB2_FINAL.Models.Entities.Person
+
+<div class="row">
+    <div class="col-md-5">
+        @Model.LastName @Model.FirstName @Model.Patronymic
+        (@{Html.RenderAction("QuestionAnswered", new { personID = Model.Id }); })
+    </div>
+    <div class="col-md-1">@Model.Age</div>
+    @if (User.Identity.IsAuthenticated)
+     {
+        <div class="col-md-2">@Html.ActionLink("Подробнее", "PersonDetails", "LAB2", new { personId = Model.Id }, null)</div>
+         if (User.IsInRole("Admin"))
+         {
+            <div class="col-md-2">@Html.ActionLink("Редактировать", "EditPerson", new { controller = "LAB2", personID = Model.Id })</div>
+            <div class="col-md-2">@Html.ActionLink("Удалить", "DeletePerson", new { controller = "LAB2", personID = Model.Id })</div>
+         }
+     }
+
+</div>

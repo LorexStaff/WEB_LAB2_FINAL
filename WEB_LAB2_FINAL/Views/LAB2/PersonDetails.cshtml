@@ -1,0 +1,33 @@
+﻿@model WEB_LAB2_FINAL.Models.Entities.Person
+
+@{
+    ViewBag.Title = "View1";
+}
+
+<h2>Участник опроса</h2>
+<h4>Person</h4>
+
+    <div calss="row">
+        <div class="col-md-1">@Html.LabelFor(m => m.LastName)</div>
+        <div class="col-md-3">@Html.DisplayFor(m => m.LastName)</div>
+
+        <div class="col-md-1">@Html.LabelFor(m => m.FirstName)</div>
+        <div class="col-md-3">@Html.DisplayFor(m => m.FirstName)</div>
+
+        <div class="col-md-1">@Html.LabelFor(m => m.Patronymic)</div>
+        <div class="col-md-3">@Html.DisplayFor(m => m.Patronymic)</div>
+    </div>
+
+    <div class="row" style="clear: both;">
+        <div class="col-md-1">@Html.LabelFor(m => m.Age)</div>
+        <div class="col-md-3">@Html.DisplayFor(m => m.Age)</div>
+
+        <div class="col-md-1">@Html.LabelFor(m => m.Gender)</div>
+        <div class="col-md-3">@Html.DisplayFor(m => m.Gender)</div>
+
+        <div class="col-md-1">@Html.LabelFor(m => m.HasJob)</div>
+        <div class="col-md-3">@Html.DisplayFor(m => m.HasJob)</div>
+    </div>
+    <p>
+        @Html.ActionLink("Назад", "ListOfPeople")
+    </p>

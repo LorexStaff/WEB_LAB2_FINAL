@@ -1,0 +1,102 @@
+﻿@model WEB_LAB2_FINAL.Models.ViewModel.PersonVM
+
+@{
+    ViewBag.Title = "EditPerson";
+}
+
+<h2>Редактирование</h2>
+
+@using (Html.BeginForm("EditPerson", "LAB2", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<form action="/LAB2/EditPerson" method="post">
+    <h4>Человек</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName, "Фамилия", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName, "Имя", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Patronymic, "Отчество", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Patronymic, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Age, "Возраст", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Gender, htmlAttributes: new
+        {
+            @class = "control-label col-md-2"
+        })
+        <div class="col-md-10">
+            @Html.RadioButtonFor(model => model.Gender, "м", new { @style = "margin-top: 10px;" }) Мужской
+            @Html.RadioButtonFor(model => model.Gender, "ж", new { @style = "margin-top: 10px; margin-left: 20px" }) Женский
+            @Html.RadioButtonFor(model => model.Gender, "", new { @style = "margin-top: 10px; margin-left: 20px" }) Не указан
+            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.HasJob, "Трудоустроен", htmlAttributes: new 
+   {
+       @class = "control-label col-md-2" 
+   })
+        <div class="checkbox col-md-10">
+                @Html.EditorFor(model => model.HasJob)
+                @Html.ValidationMessageFor(model => model.HasJob, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Birthday, "Дата рождения", htmlAttributes: new { @class = "control-label col-md-12" })
+        <div class="col-md-12">
+            @Html.TextBoxFor(model => model.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InsertedDateTime, "Дата добавления", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-12">
+            @Html.TextBoxFor(model => model.InsertedDateTime, "{0:yyyy-MM-dd HH:mm:ss}", new { @class = "form-control", type = "datetime-local" })
+            @Html.ValidationMessageFor(model => model.InsertedDateTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Редактировать" class="btn btn-default" />
+            @Html.ActionLink("Вернуться", "ListOfPeople")
+        </div>
+    </div>
+</form>
+}
+
+
+
+
+
