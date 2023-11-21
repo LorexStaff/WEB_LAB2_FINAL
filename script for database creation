@@ -1,0 +1,93 @@
+--- создаем сначала базу ручками, потом используем скрипт
+use WEB_LAB5
+CREATE TABLE Person (
+    Id uniqueidentifier NOT NULL PRIMARY KEY,
+    LastName varchar(100) NOT NULL,
+    FirstName varchar(100) NOT NULL,
+    Patronymic varchar(100),
+    Age int NOT NULL,
+    Gender char(1),
+    HasJob bit NOT NULL,
+    Birthday date NOT NULL,
+    InsertedDateTime datetime NOT NULL,
+    UserId uniqueidentifier NOT NULL
+);
+
+CREATE TABLE [User] (
+    ID uniqueidentifier NOT NULL PRIMARY KEY,
+    Login varchar(50) NOT NULL,
+    PasswordHash varchar(200) NOT NULL,
+    Salt uniqueidentifier NOT NULL,
+    UserRole int NOT NULL
+);
+
+CREATE TABLE Role (
+    RoleCode int NOT NULL PRIMARY KEY,
+    RoleName varchar(20) NOT NULL
+);
+
+CREATE TABLE Question (
+    Number int NOT NULL PRIMARY KEY,
+    QuestionText varchar(1000) NOT NULL
+);
+
+CREATE TABLE Answer (
+    QuestionNumber int NOT NULL,
+    PersonId uniqueidentifier NOT NULL,
+    AnswerTime datetime2(7) NOT NULL,
+    AnswerText varchar(1000) NOT NULL,
+    PRIMARY KEY (QuestionNumber, PersonId),
+    FOREIGN KEY (QuestionNumber) REFERENCES Question(Number),
+    FOREIGN KEY (PersonId) REFERENCES Person(Id)
+);
+
+ALTER TABLE Person ADD CONSTRAINT FK_Person_User FOREIGN KEY (UserId) REFERENCES [User](ID);
+ALTER TABLE [User] ADD CONSTRAINT FK_User_Role FOREIGN KEY (UserRole) REFERENCES Role(RoleCode);
+
+---- для вставки данных в таблицу User
+--- P.S. для лунтиков: сначала заполняем User, потом Person и все остальное
+
+use WEB_LAB5
+INSERT INTO dbo.Role (RoleCode, RoleName) 
+VALUES (1, 'Admin'),
+		(2, 'SimpleUser');
+declare @Login varchar(50),
+		@Password varchar(100),
+		@UserSalt varchar(50),
+		@PasswordHash varchar(200),
+		@UserRole int
+set @Login = 'Admin'
+set @Password = 'abcdef'
+set @UserSalt = upper(cast(newid() as varchar(50)))
+set @PasswordHash = CONVERT(varchar(200), HASHBYTES('SHA1', @Password + @UserSalt), 2)
+set @UserRole = 1
+
+insert into [User](ID, [Login], PasswordHash, Salt, UserRole)
+values(newid(), @Login, @PasswordHash, @UserSalt, @UserRole)
+
+INSERT INTO Person (Id, LastName, FirstName, Patronymic, Age, Gender, HasJob, Birthday, InsertedDateTime, UserId)
+VALUES ('A848B36E-D12A-41E6-A30C-BA1CA3ABCE19', 'Иванов', 'Иван', 'Иванович', 25, 'М', 1, '1985-07-15', GETDATE(), 'ADDA0BF0-0C15-475F-A441-3425C241676B'),
+       ('BA5B8B2A-3C64-472C-B480-CA9295494D2E', 'Петрова', 'Мария', 'Сергеевна', 30, 'Ж', 1, '1985-07-15', GETDATE(),'7FABA746-C823-4DF7-98CB-C8BAAE91D04C'),
+       ('67712069-D359-4CF0-AC58-895BC0DEE5C7', 'Сидоров', 'Алексей', 'Петрович', 20, 'М', 0, '1985-07-15', GETDATE(),'42ADAE5F-0693-47A0-BB17-89287ED044C8'),
+       ('877FADD6-7A87-48A9-A314-CC8C72179453', 'Козлов', 'Дмитрий', 'Андреевич', 35, 'М', 1, '1985-07-15', GETDATE(),'36346226-62C9-448A-A6FC-5642B5313211');
+
+INSERT INTO Question (Number, QuestionText)
+VALUES (1, 'Как часто вы занимаетесь спортом?'),
+       (2, 'Как часто вы читаете книги?'),
+       (3, 'Как часто вы путешествуете?');
+
+INSERT INTO Answer (QuestionNumber, PersonId, AnswerTime, AnswerText)
+VALUES (1, 'A848B36E-D12A-41E6-A30C-BA1CA3ABCE19', '2022-01-01 10:00:00.0000000', 'Регулярно занимаюсь спортом'),
+       (1, 'BA5B8B2A-3C64-472C-B480-CA9295494D2E', '2022-01-02 11:00:00.0000000', 'Иногда занимаюсь спортом'),
+       (1, '67712069-D359-4CF0-AC58-895BC0DEE5C7', '2022-01-03 12:00:00.0000000', 'Не занимаюсь спортом'),
+       (1, '877FADD6-7A87-48A9-A314-CC8C72179453', '2022-01-04 13:00:00.0000000', 'Регулярно занимаюсь спортом'),
+       (2, 'A848B36E-D12A-41E6-A30C-BA1CA3ABCE19', '2022-01-05 14:00:00.0000000', 'Читаю книги каждый день'),
+       (2, 'BA5B8B2A-3C64-472C-B480-CA9295494D2E', '2022-01-06 15:00:00.0000000', 'Читаю книги раз в неделю'),
+       (2, '67712069-D359-4CF0-AC58-895BC0DEE5C7', '2022-01-07 16:00:00.0000000', 'Не читаю книги'),
+       (2, '877FADD6-7A87-48A9-A314-CC8C72179453', '2022-01-08 17:00:00.0000000', 'Читаю книги каждый день'),
+       (3, 'A848B36E-D12A-41E6-A30C-BA1CA3ABCE19', '2022-01-09 18:00:00.0000000', 'Путешествую несколько раз в год'),
+       (3, 'BA5B8B2A-3C64-472C-B480-CA9295494D2E', '2022-01-10 19:00:00.0000000', 'Путешествую раз в год'),
+       (3, '67712069-D359-4CF0-AC58-895BC0DEE5C7', '2022-01-11 20:00:00.0000000', 'Не путешествую'),
+       (3, '877FADD6-7A87-48A9-A314-CC8C72179453', '2022-01-12 21:00:00.0000000', 'Путешествую несколько раз в год');
+
+	   SELECT NEWID();
